@@ -77,11 +77,15 @@ namespace ratgdo {
         }
         if (call.get_position().has_value()) {
             auto pos = *call.get_position();
+            ESP_LOGW("ratgdo_cover", "Request to set door to %f", pos);
             if (pos == COVER_OPEN) {
+                ESP_LOGW("ratgdo_cover", "Door Req to Open");
                 this->parent_->open_door();
             } else if (pos == COVER_CLOSED) {
+                ESP_LOGW("ratgdo_cover", "Door Req to Close");
                 this->parent_->close_door();
             } else {
+                ESP_LOGW("ratgdo_cover", "Door custom pos");
                 this->parent_->door_move_to_position(pos);
             }
         }
