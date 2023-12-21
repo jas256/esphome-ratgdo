@@ -649,6 +649,22 @@ namespace ratgdo {
 
     void RATGDOComponent::door_command(uint32_t data)
     {
+        // MODDED for CS105MYQ, close command doesn't work
+        if (data == data::DOOR_CLOSE) {
+            if (*this->door_state == DoorState::OPENING) {
+                // Need to stop, then toggle
+                this->door_command(data::DOOR_STOP);
+                data = data::DOOR_TOGGLE;
+            }
+            else if (*this->door_state == DoorState::OPEN) {
+                // To close we toggle
+                data = data::DOOR_TOGGLE;
+            }
+            else if (*this->door_state == DoorState::STOPPED) {
+                // we need to find out what was the last state before stop
+                data = data::DOOR_TOGGLE;
+            }
+        }
         data |= (1 << 16); // button 1 ?
         data |= (1 << 8); // button press
         this->send_command(Command::DOOR_ACTION, data, false, [=]() {
