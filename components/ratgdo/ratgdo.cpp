@@ -653,7 +653,7 @@ namespace ratgdo {
         if (data == data::DOOR_CLOSE) {
             if (*this->door_state == DoorState::OPENING) {
                 // Need to stop, then toggle
-                this->door_command(data::DOOR_STOP);
+                this->ensure_door_command(data::DOOR_STOP);
                 data = data::DOOR_TOGGLE;
             }
             else if (*this->door_state == DoorState::OPEN) {
